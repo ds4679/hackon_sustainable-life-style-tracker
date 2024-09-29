@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .heading {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #71e058;
+            color: #fff;
+        }
+        .content {
+            max-width: 1415px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .images {
+            max-width: 1445px;
+            margin: 20px auto;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .images img {
+            width: 330px;
+            height: 300px;
+            margin-right: 10px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Align items at the start */
+        }
+        .calculation {
+            flex: 1;
+            margin-right: 20px; /* Increased margin for spacing */
+        }
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            flex: 1;
+            margin-left: 5px;
+            color: #333;
+        }
+        .input-group input, .input-group select {
+            flex: 2;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+        }
+        .result {
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #eee;
+        }
+        .result h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .result p {
+            margin: 0;
+            color: #666;
+        }
+        .side-image {
+            width: 560px;
+            margin-left: 20px; /* Adjusted for better alignment */
+        }
+        .button {
+            background-color: #78b576;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #17d437;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Carbon Footprint Tracker</h1> <!-- Changed heading -->
+    </div>
+    <br>
+    <div class="content">
+        <p>
+            Understanding your carbon footprint is the first step towards living a more sustainable lifestyle. This tool helps you calculate your carbon footprint based on energy consumption, transportation habits, and diet choices. 
+            By tracking and reducing your carbon footprint, you can make more informed decisions to reduce your environmental impact.
+        </p>
+    </div>
+    <div class="images">
+        <img src="https://media.istockphoto.com/id/1358631264/photo/solar-and-wind-energy-farm.jpg?s=612x612&w=0&k=20&c=O2GDKdhl3yA4vyH-PPe_1bl5wPEKx3hE_loZV-uaBLw=" alt="Sustainable Energy">
+        <img src="https://djn2oq6v2lacp.cloudfront.net/wp-content/uploads/2022/12/eco-health-961.jpg" alt="Eco-friendly Transportation">
+        <img src="https://www.highspeedtraining.co.uk/hub/wp-content/uploads/2021/06/S1-1.jpg" alt="Sustainable Food Choices">
+        <img src="https://cdn.mos.cms.futurecdn.net/rFWTirBgcDcqhLMHPhnL4e.jpg" alt="Sustainable House">
+        <img src="https://youthincmag.com/wp-content/uploads/2021/10/iStock-1161748765-1280x720.jpg" alt="Sustainable Products">
+    </div>
+    <div class="container">
+        <form id="footprintForm" class="calculation">
+            <div class="input-group">
+                <label for="electricity">Electricity Usage (kWh per month):</label>
+                <input type="number" id="electricity" placeholder="Enter electricity usage" required>
+            </div>
+            <div class="input-group">
+                <label for="milesDriven">Miles Driven (per month):</label>
+                <input type="number" id="milesDriven" placeholder="Enter miles driven" required>
+            </div>
+            <div class="input-group">
+                <label for="dietType">Diet Type (1 for Vegan, 2 for Vegetarian, 3 for Non-Vegetarian):</label>
+                <input type="number" id="dietType" min="1" max="3" placeholder="Enter diet type" required>
+            </div>
+            <button type="submit" class="button">Calculate Carbon Footprint</button>
+            <button class="button" id="recommendBtn">Show Personalized Recommendations</button>
+
+        </form>
+        <div class="result" id="outputSection" style="display: none;">
+            <h2>Your Carbon Footprint Result</h2>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        // Carbon footprint factors
+        const emissionFactors = {
+            electricity: 0.233,   // kg CO₂e per kWh
+            car: 0.411,           // kg CO₂e per mile
+            diet: {
+                1: 1.5,  // Vegan diet
+                2: 2.0,  // Vegetarian diet
+                3: 3.3   // Non-Vegetarian diet
+            }
+        };
+
+        document.getElementById('footprintForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get user input values
+            const electricityUsage = parseFloat(document.getElementById('electricity').value);
+            const milesDriven = parseFloat(document.getElementById('milesDriven').value);
+            const dietType = parseInt(document.getElementById('dietType').value);
+
+            // Calculate carbon footprint based on input and emission factors
+            const energyFootprint = electricityUsage * emissionFactors.electricity;
+            const transportFootprint = milesDriven * emissionFactors.car;
+            const foodFootprint = emissionFactors.diet[dietType] * 30;  // 30 days in a month
+
+            const totalFootprint = energyFootprint + transportFootprint + foodFootprint;
+
+            // Display the result
+            const resultSection = document.getElementById('outputSection');
+            document.getElementById('result').innerHTML = `
+                Your total carbon footprint is <strong>${totalFootprint.toFixed(2)} kg CO₂e</strong> per month.
+                <br>Energy: ${energyFootprint.toFixed(2)} kg CO₂e
+                <br>Transport: ${transportFootprint.toFixed(2)} kg CO₂e
+                <br>Food: ${foodFootprint.toFixed(2)} kg CO₂e
+            `;
+            resultSection.style.display = 'block';
+        });
+
+        document.getElementById('recommendBtn').addEventListener('click', function () {
+            window.location.href = 'recommendations.html';  // Change to your actual recommendations page
+        }); 
+    </script>
+</body>
+</html>

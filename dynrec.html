@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .heading {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #71e058;
+            color: #fff;
+        }
+        .content {
+            max-width: 1415px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        .input-group label {
+            color: #333;
+        }
+        .input-group input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            width: 100%;
+        }
+        .recommendation {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #eee;
+        }
+        .recommendation h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .recommendation ul {
+            padding-left: 20px;
+        }
+        .recommendation ul li {
+            margin-bottom: 10px;
+        }
+        .button {
+            background-color: #78b576;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #17d437;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Personalized Recommendations</h1>
+    </div>
+    <div class="content">
+        <p>Enter your carbon footprint result to receive personalized recommendations:</p>
+        <div class="input-group">
+            <label for="footprintInput">Carbon Footprint (kg CO₂e per month):</label><br><br>
+            <input type="number" id="footprintInput" placeholder="Enter your carbon footprint" required>
+        </div>
+        <button class="button" onclick="generateRecommendations()">Get Recommendations</button>
+
+        <div id="recommendations" class="hidden">
+            <div class="recommendation" id="energyRec"></div>
+            <div class="recommendation" id="transportRec"></div>
+            <div class="recommendation" id="foodRec"></div>
+        </div>
+
+        <button class="button" onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
+
+    <script>
+        function generateRecommendations() {
+            const footprint = parseFloat(document.getElementById('footprintInput').value);
+            const energyRec = document.getElementById('energyRec');
+            const transportRec = document.getElementById('transportRec');
+            const foodRec = document.getElementById('foodRec');
+            const recommendationsSection = document.getElementById('recommendations');
+
+            // Clear previous recommendations
+            energyRec.innerHTML = '';
+            transportRec.innerHTML = '';
+            foodRec.innerHTML = '';
+
+            // Generate recommendations based on the footprint value
+            if (footprint < 100) {
+                energyRec.innerHTML = `<h2>Energy Efficiency</h2>
+                <p>Your energy footprint is good! Keep it up! Consider these suggestions to further improve:</p>
+                <ul>
+                    <li>Switch to 100% renewable energy sources.</li>
+                    <li>Install energy-efficient bulbs (e.g., LEDs).</li>
+                    <li>Unplug devices when not in use to avoid phantom energy loss.</li>
+                    <li>Lower your thermostat by a few degrees.</li>
+                    <li>Consider using a smart thermostat to optimize energy usage.</li>
+                </ul>`;
+                
+                transportRec.innerHTML = `<h2>Transportation Alternatives</h2>
+                <p>You're doing great in transportation! Here are additional tips:</p>
+                <ul>
+                    <li>Walk or bike for shorter trips whenever possible.</li>
+                    <li>Use public transport or carpool to reduce emissions.</li>
+                    <li>Opt for fuel-efficient or electric vehicles when traveling longer distances.</li>
+                </ul>`;
+                
+                foodRec.innerHTML = `<h2>Sustainable Eating</h2>
+                <p>Your food footprint is on track! Consider these improvements:</p>
+                <ul>
+                    <li>Add more plant-based meals to your diet.</li>
+                    <li>Reduce food waste by planning meals better.</li>
+                    <li>Buy local, seasonal produce to minimize carbon costs from transport.</li>
+                </ul>`;
+                
+            } else if (footprint < 300) {
+                energyRec.innerHTML = `<h2>Energy Efficiency</h2>
+                <p>You could improve your energy footprint by following these recommendations:</p>
+                <ul>
+                    <li>Use energy-efficient appliances such as washing machines and refrigerators.</li>
+                    <li>Switch to LED lighting and turn off lights when not in use.</li>
+                    <li>Seal windows and doors to reduce heat loss and save energy on heating/cooling.</li>
+                    <li>Invest in a smart thermostat to automatically adjust energy use.</li>
+                </ul>`;
+                
+                transportRec.innerHTML = `<h2>Transportation Alternatives</h2>
+                <p>Try these methods to reduce your transport emissions:</p>
+                <ul>
+                    <li>Use public transport, bike, or carpool to lower your emissions.</li>
+                    <li>Cut back on air travel or opt for carbon offset programs.</li>
+                    <li>Regularly maintain your vehicle to improve fuel efficiency.</li>
+                </ul>`;
+                
+                foodRec.innerHTML = `<h2>Sustainable Eating</h2>
+                <p>Lower your food footprint with these tips:</p>
+                <ul>
+                    <li>Incorporate more plant-based meals into your diet.</li>
+                    <li>Reduce meat consumption, especially red meat.</li>
+                    <li>Compost food waste to reduce landfill emissions.</li>
+                    <li>Buy in bulk to minimize packaging waste.</li>
+                </ul>`;
+                
+            } else {
+                energyRec.innerHTML = `<h2>Energy Efficiency</h2>
+                <p>Your energy consumption is high. Consider these steps to lower it:</p>
+                <ul>
+                    <li>Switch to energy-efficient appliances and reduce heating/cooling where possible.</li>
+                    <li>Consider installing solar panels to reduce dependency on non-renewable energy.</li>
+                    <li>Lower water heating costs by using less hot water or installing a solar water heater.</li>
+                </ul>`;
+                
+                transportRec.innerHTML = `<h2>Transportation Alternatives</h2>
+                <p>To significantly reduce your transportation footprint, try the following:</p>
+                <ul>
+                    <li>Switch to public transport, biking, or walking for your daily commute.</li>
+                    <li>If you must drive, consider a hybrid or electric vehicle.</li>
+                    <li>Reduce long-distance travel, particularly air travel, and opt for carbon offsets.</li>
+                </ul>`;
+                
+                foodRec.innerHTML = `<h2>Sustainable Eating</h2>
+                <p>To improve your food footprint, focus on these strategies:</p>
+                <ul>
+                    <li>Adopt a primarily plant-based diet and reduce your meat intake significantly.</li>
+                    <li>Opt for locally sourced, organic, and seasonal food.</li>
+                    <li>Minimize food waste by carefully planning your meals and composting scraps.</li>
+                </ul>`;
+            }
+
+            recommendationsSection.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

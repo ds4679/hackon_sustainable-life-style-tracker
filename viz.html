@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .visualization-section {
+            display: none;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        canvas {
+            width: 300px !important;
+            height: 300px !important;
+        }
+
+        input,
+        select {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .chart-heading {
+            text-align: center;
+            font-size: 16px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Analyze Your Daily Carbon Footprint</h1>
+
+    <div>
+        <label for="kmDriven">Distance Traveled (km):</label>
+        <input type="number" id="kmDriven" placeholder="Enter kilometers">
+    </div>
+    <div>
+        <label for="dietType">Dietary Preference:</label>
+        <select id="dietType">
+            <option value="vegan">Vegan</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="non-vegetarian">Non-Vegetarian</option>
+        </select>
+    </div>
+    <div>
+        <label for="energyUsage">Electricity Consumption (kWh):</label>
+        <input type="number" id="energyUsage" placeholder="Enter kWh used">
+    </div>
+    <button onclick="generateCharts()">Calculate</button>
+
+    <div class="visualization-section" id="visualSection">
+        <div>
+            <canvas id="emissionsBarChart"></canvas>
+            <div class="chart-heading">Carbon Emissions Bar Chart</div>
+        </div>
+        <div>
+            <canvas id="emissionsDonutChart"></canvas>
+            <div class="chart-heading">Carbon Emissions Donut Chart</div>
+        </div>
+    </div>
+
+    <script>
+        const chartConfig = {
+            labels: ['Travel', 'Diet', 'Electricity'],
+            datasets: [{
+                label: 'CO2 Emissions (kg)',
+                data: [0, 0, 0],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                borderColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                borderWidth: 1
+            }]
+        };
+
+        const barCanvas = document.getElementById('emissionsBarChart').getContext('2d');
+        const barChart = new Chart(barCanvas, {
+            type: 'bar',
+            data: chartConfig,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'CO2 Emissions (kg)',
+                            font: { size: 14 }
+                        },
+                        ticks: { font: { size: 12 } }
+                    },
+                    x: { ticks: { font: { size: 12 } } }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: { font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        const donutCanvas = document.getElementById('emissionsDonutChart').getContext('2d');
+        const donutChart = new Chart(donutCanvas, {
+            type: 'doughnut',
+            data: chartConfig,
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: { font: { size: 12 } }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw} kg CO2`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function getTravelEmissions(kilometers) {
+            const CO2PerKm = 0.192;
+            return kilometers * CO2PerKm;
+        }
+
+        function getDietEmissions(diet) {
+            const emissionValues = {
+                vegan: 2.0,
+                vegetarian: 3.8,
+                'non-vegetarian': 7.2
+            };
+            return emissionValues[diet] || 0;
+        }
+
+        function getElectricityEmissions(kWh) {
+            return kWh * 0.5;
+        }
+
+        function generateCharts() {
+            const distance = parseFloat(document.getElementById('kmDriven').value) || 0;
+            const diet = document.getElementById('dietType').value;
+            const electricity = parseFloat(document.getElementById('energyUsage').value) || 0;
+
+            const travelEmission = getTravelEmissions(distance);
+            const dietEmission = getDietEmissions(diet);
+            const electricityEmission = getElectricityEmissions(electricity);
+
+            barChart.data.datasets[0].data = [travelEmission, dietEmission, electricityEmission];
+            barChart.update();
+
+            donutChart.data.datasets[0].data = [travelEmission, dietEmission, electricityEmission];
+            donutChart.update();
+
+            document.getElementById('visualSection').style.display = 'flex';
+        }
+    </script>
+</body>
+
+</html>

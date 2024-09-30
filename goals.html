@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Goals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .heading {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #71e058;
+            color: #fff;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        .input-group label {
+            color: #333;
+        }
+        .input-group input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            width: 100%;
+        }
+        .goal {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+        }
+        .goal img {
+            width: 150px;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+        .goal h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .button {
+            background-color: #78b576;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #17d437;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Your Sustainable Goals</h1>
+    </div><br><br>
+    <div class="content">
+        <p>Enter your carbon footprint result to set personalized sustainability goals:</p>
+        <div class="input-group">
+            <label for="footprintInput">Carbon Footprint (kg CO₂e per month):</label><br><br>
+            <input type="number" id="footprintInput" placeholder="Enter your carbon footprint" required>
+        </div>
+        <button class="button" onclick="generateGoals()">Set Goals</button>
+
+        <div id="goalsSection" class="hidden">
+            <div class="goal" id="energyGoal"></div>
+            <div class="goal" id="transportGoal"></div>
+            <div class="goal" id="foodGoal"></div>
+        </div>
+
+        <button class="button" onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
+    <!-- This is part of your existing Goals page code -->
+<!--<button class="button" onclick="checkProgress()">Check Progress</button>-->
+
+<script>
+    let energyProgress = 80;  // For example, based on user's performance
+    let transportProgress = 60;
+    let foodProgress = 90;
+
+    function checkProgress() {
+        // Passing progress values via query parameters to the rewards page
+        const url = `rewards.html?energy=${energyProgress}&transport=${transportProgress}&food=${foodProgress}`;
+        window.location.href = url;
+    }
+</script>
+
+
+    <script>
+        function generateGoals() {
+            const footprint = parseFloat(document.getElementById('footprintInput').value);
+            const energyGoal = document.getElementById('energyGoal');
+            const transportGoal = document.getElementById('transportGoal');
+            const foodGoal = document.getElementById('foodGoal');
+            const goalsSection = document.getElementById('goalsSection');
+
+            // Clear previous goals
+            energyGoal.innerHTML = '';
+            transportGoal.innerHTML = '';
+            foodGoal.innerHTML = '';
+
+            // Set personalized goals based on the footprint value
+            if (footprint < 100) {
+                energyGoal.innerHTML = `
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv0au0x1FMOyCIp1x__BxsagpC0Ls_QIwy8nuCe0sOFEhom3-qwbTGn_5cllmyIFU8Mnk&usqp=CAU" alt="Renewable Energy">
+                    <div>
+                        <h2>Energy Goal: Maintain Low Usage</h2>
+                        <p>Your energy consumption is great! Aim to switch entirely to renewable energy within the next 3 months.</p>
+                    </div>`;
+                
+                transportGoal.innerHTML = `
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG_y740zVT7jtFTxIzDiE86NBMv8IlDcAjkdVMp4ahLbPs5iFh_gACPSyaGQyHdidGX3Y&usqp=CAU" alt="Public Transport">
+                    <div>
+                        <h2>Transport Goal: Increase Public Transport Use</h2>
+                        <p>Try to use public transport or bike at least 2 days per week to maintain low emissions.</p>
+                    </div>`;
+                
+                foodGoal.innerHTML = `
+                    <img src="https://rootbridges.com/cdn/shop/articles/What_Are_The_Basic_Needs_Of_The_Indoor_Plants_To_Survive.jpg?v=1641212409" alt="Plant-based Diet">
+                    <div>
+                        <h2>Food Goal: Keep Up Plant-Based Diet</h2>
+                        <p>You’re doing great! Continue eating plant-based meals 3 times a week to maintain this low footprint.</p>
+                    </div>`;
+            } else if (footprint < 300) {
+                energyGoal.innerHTML = `
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDKACkMhM3GPO-GLwA0TjeAXyntnWAKdOH9A&s" alt="Energy Efficient Appliances">
+                    <div>
+                        <h2>Energy Goal: Reduce Consumption by 10%</h2>
+                        <p>Reduce your energy usage by 10% in the next month by turning off devices and using energy-efficient appliances.</p>
+                    </div>`;
+                
+                transportGoal.innerHTML = `
+                    <img src="https://miro.medium.com/v2/resize:fit:1400/1*n-6mh-5LUdlePB0H1u776Q.jpeg" alt="Carpooling">
+                    <div>
+                        <h2>Transport Goal: Start Carpooling</h2>
+                        <p>Carpool at least once a week to reduce your transport emissions.</p>
+                    </div>`;
+                
+                foodGoal.innerHTML = `
+                    <img src="https://www.permaculturenews.org/wp-content/uploads/2017/07/feat-30.jpg" alt="Local Food">
+                    <div>
+                        <h2>Food Goal: Eat Locally-Sourced Meals</h2>
+                        <p>Incorporate more local, plant-based foods into your diet. Aim for 2 meals per week to reduce food emissions.</p>
+                    </div>`;
+            } else {
+                energyGoal.innerHTML = `
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3u6Xt2fz6iSY-9Q9S_lndgIQZjdqmnxjQTw0bclmU7J19HhI816Uq7BC1F64GiPzPi_Y&usqp=CAU" alt="Solar Panels">
+                    <div>
+                        <h2>Energy Goal: Switch to Solar Power</h2>
+                        <p>Your energy consumption is high. Consider installing solar panels within the next year to reduce your carbon footprint.</p>
+                    </div>`;
+                
+                transportGoal.innerHTML = `
+                    <img src="https://static.wanderon.in/wp-content/uploads/2023/02/135403-2-1.jpg" alt="Biking">
+                    <div>
+                        <h2>Transport Goal: Reduce Car Usage</h2>
+                        <p>Cut car usage by 50% in the next 3 months. Use biking, walking, or public transport whenever possible.</p>
+                    </div>`;
+                
+                foodGoal.innerHTML = `
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtMsiuNwAoaie69HfmyYmRsLYaJKt2o3iwwAvF60BD4FALikb3dqky2lCgZ4XK-y5vsYo&usqp=CAU" alt="Vegan Meals">
+                    <div>
+                        <h2>Food Goal: Switch to Plant-Based Meals</h2>
+                        <p>Significantly reduce your meat consumption by switching to vegan meals at least 4 times per week.</p>
+                    </div>`;
+            }
+
+            goalsSection.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards for Sustainable Goals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .heading {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #71e058;
+            color: #fff;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .progress {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar span {
+            display: block;
+            height: 25px;
+            background-color: #71e058;
+            width: 0;
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        .progress h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .reward {
+            background-color: #ffe1a3;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: none; /* Hide by default */
+            align-items: center;
+        }
+        .reward img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        .link-button {
+            background-color: #42aaf5;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .button {
+            background-color: #78b576;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #17d437;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Track Your Progress & Earn Rewards</h1>
+    </div>
+    <div class="content">
+        <p>Enter your estimated goals to track your progress and earn rewards!</p>
+        
+        <!-- User Input Form -->
+        <div class="form-group">
+            <label for="energyGoal">Energy Reduction Goal (%):</label>
+            <input type="number" id="energyGoal" placeholder="Enter your energy goal (0-100)" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label for="transportGoal">Transport Reduction Goal (%):</label>
+            <input type="number" id="transportGoal" placeholder="Enter your transport goal (0-100)" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label for="foodGoal">Food Footprint Goal (%):</label>
+            <input type="number" id="foodGoal" placeholder="Enter your food goal (0-100)" min="0" max="100">
+        </div>
+        <button class="button" onclick="setGoals()">Set Goals</button>
+
+        <!-- Energy Goal Progress -->
+        <div class="progress" id="energyProgressContainer" style="display: none;">
+            <div>
+                <h2>Energy Goal Progress</h2>
+                <p>Reduce energy consumption by your goal percentage.</p>
+                <div class="progress-bar">
+                    <span id="energyProgress" style="width: 0;"></span>
+                </div>
+                <div class="reward" id="energyReward">
+                    <div class="reward-text">
+                        <h3>Reward: Energy Saver Badge</h3>
+                        <p>Earned for reducing energy consumption!</p>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/616/616490.png" alt="Energy Badge">
+                </div>
+            </div>
+        </div>
+
+        <!-- Transport Goal Progress -->
+        <div class="progress" id="transportProgressContainer" style="display: none;">
+            <div>
+                <h2>Transport Goal Progress</h2>
+                <p>Carpool at least once a week or use public transport to achieve your goal percentage.</p>
+                <div class="progress-bar">
+                    <span id="transportProgress" style="width: 0;"></span>
+                </div>
+                <div class="reward" id="transportReward">
+                    <div class="reward-text">
+                        <h3>Reward: Eco-Transport Badge</h3>
+                        <p>Earned for reducing car emissions through carpooling or biking.</p>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/616/616462.png" alt="Transport Badge">
+                </div>
+            </div>
+        </div>
+
+        <!-- Food Goal Progress -->
+        <div class="progress" id="foodProgressContainer" style="display: none;">
+            <div>
+                <h2>Food Goal Progress</h2>
+                <p>Incorporate plant-based meals to achieve your goal percentage.</p>
+                <div class="progress-bar">
+                    <span id="foodProgress" style="width: 0;"></span>
+                </div>
+                <div class="reward" id="foodReward">
+                    <div class="reward-text">
+                        <h3>Reward: Plant-Based Champion Badge</h3>
+                        <p>Earned for sticking to a plant-based diet!</p>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/616/616469.png" alt="Food Badge">
+                </div>
+            </div>
+        </div>
+
+        <!-- Link back to goals page -->
+        <a href="goals.html" class="link-button">Review Your Goals</a>
+    </div>
+
+    <script>
+        let userGoals = {
+            energy: 0,
+            transport: 0,
+            food: 0
+        };
+
+        // Function to set user goals
+        function setGoals() {
+            userGoals.energy = parseInt(document.getElementById('energyGoal').value) || 0;
+            userGoals.transport = parseInt(document.getElementById('transportGoal').value) || 0;
+            userGoals.food = parseInt(document.getElementById('foodGoal').value) || 0;
+
+            // Display progress containers
+            document.getElementById('energyProgressContainer').style.display = 'flex';
+            document.getElementById('transportProgressContainer').style.display = 'flex';
+            document.getElementById('foodProgressContainer').style.display = 'flex';
+
+            // Start updating progress
+            updateProgress();
+        }
+
+        // Function to update progress bars and rewards
+        function updateProgress() {
+            // Simulate progress (can be replaced with actual tracking logic)
+            const progressInterval = setInterval(() => {
+                // Update Energy Progress
+                const energyProgressElement = document.getElementById('energyProgress');
+                if (parseInt(energyProgressElement.style.width) < userGoals.energy) {
+                    energyProgressElement.style.width = `${parseInt(energyProgressElement.style.width) + 1}%`;
+                } else {
+                    document.getElementById('energyReward').style.display = 'flex'; // Show reward
+                }
+
+                // Update Transport Progress
+                const transportProgressElement = document.getElementById('transportProgress');
+                if (parseInt(transportProgressElement.style.width) < userGoals.transport) {
+                    transportProgressElement.style.width = `${parseInt(transportProgressElement.style.width) + 1}%`;
+                } else {
+                    document.getElementById('transportReward').style.display = 'flex'; // Show reward
+                }
+
+                // Update Food Progress
+                const foodProgressElement = document.getElementById('foodProgress');
+                if (parseInt(foodProgressElement.style.width) < userGoals.food) {
+                    foodProgressElement.style.width = `${parseInt(foodProgressElement.style.width) + 1}%`;
+                } else {
+                    document.getElementById('foodReward').style.display = 'flex'; // Show reward
+                }
+
+                // Stop updating when all goals are met
+                if (parseInt(energyProgressElement.style.width) >= userGoals.energy &&
+                    parseInt(transportProgressElement.style.width) >= userGoals.transport &&
+                    parseInt(foodProgressElement.style.width) >= userGoals.food) {
+                    clearInterval(progressInterval);
+                }
+            }, 100); // Adjust interval speed as needed
+        }
+    </script>
+</body>
+</html>
